@@ -22,7 +22,7 @@ class TestDictDiffer(TestCase):
         self.assertEqual(self.d.unchanged(), set(['a']))
 
     def test_changes(self):
-        self.assertEqual(self.d.changes(), {'added' : 1,
+        self.assertEqual(self.d.changes(), {'added': 1,
                                             'removed': 1,
                                             'changed': 1})
 
@@ -33,13 +33,12 @@ class TestDictDiffer(TestCase):
         b = {'a': 1, 'b': 1, 'c': 0}
         tdf = DictDiffer(b, a)
 
-        self.assertEqual(tdf.changes(), {'added' : 0,
+        self.assertEqual(tdf.changes(), {'added': 0,
                                          'removed': 0,
                                          'changed': 0})
 
     def test_haschanges(self):
         self.assertEqual(self.d.has_changes(), True)
-
 
     def test_haschanges_no(self):
         """Dict are the same
