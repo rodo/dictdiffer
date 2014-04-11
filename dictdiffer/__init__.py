@@ -21,6 +21,23 @@ class DictDiffer(object):
         ]
         self.intersect = self.current_keys.intersection(self.past_keys)
 
+    def changes(self):
+        chadd = self.added()
+        chrem = self.removed()
+        chmod = self.changed()
+        return {'added': len(chadd),
+                'removed': len(chrem),
+                'changed': len(chmod)}
+
+    def nb_changes(self):
+        chadd = self.added()
+        chrem = self.removed()
+        chmod = self.changed()
+        return len(chadd) + len(chrem) + len(chmod)
+
+    def has_changes(self):
+        return self.current_dict != self.past_dict
+
     def added(self):
         return self.current_keys - self.intersect
 

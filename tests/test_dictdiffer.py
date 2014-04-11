@@ -20,3 +20,65 @@ class TestDictDiffer(TestCase):
 
     def test_unchanged(self):
         self.assertEqual(self.d.unchanged(), set(['a']))
+
+    def test_changes(self):
+        self.assertEqual(self.d.changes(), {'added' : 1,
+                                            'removed': 1,
+                                            'changed': 1})
+
+    def test_changes_same(self):
+        """Dict are same
+        """
+        a = {'a': 1, 'b': 1, 'c': 0}
+        b = {'a': 1, 'b': 1, 'c': 0}
+        tdf = DictDiffer(b, a)
+
+        self.assertEqual(tdf.changes(), {'added' : 0,
+                                         'removed': 0,
+                                         'changed': 0})
+
+    def test_haschanges(self):
+        self.assertEqual(self.d.has_changes(), True)
+
+
+    def test_haschanges_no(self):
+        """Dict are the same
+        """
+        a = {'a': 1, 'b': 1, 'c': 0}
+        b = {'a': 1, 'b': 1, 'c': 0}
+        tdf = DictDiffer(b, a)
+
+        self.assertEqual(tdf.has_changes(), False)
+
+    def test_haschanges_empty(self):
+        """Dict are empty
+        """
+        tdf = DictDiffer({}, {})
+        self.assertFalse(tdf.has_changes())
+
+    def test_nb_changes(self):
+        """Number of changes
+        """
+        a = {'a': 1, 'b': 1, 'c': 0}
+        b = {'a': 1, 'b': 2}
+        tdf = DictDiffer(b, a)
+
+        self.assertEqual(tdf.nb_changes(), 2)
+
+    def test_nb_changes_same(self):
+        """Number of changes
+        """
+        a = {'a': 1, 'b': 1}
+        b = {'a': 1, 'b': 1}
+        tdf = DictDiffer(b, a)
+
+        self.assertEqual(tdf.nb_changes(), 0)
+
+    def test_nb_changes_full(self):
+        """Number of changes
+        """
+        a = {'a': 1, 'b': 1}
+        b = {'d': 1, 'f': 1}
+        tdf = DictDiffer(b, a)
+
+        self.assertEqual(tdf.nb_changes(), 4)
