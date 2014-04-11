@@ -81,3 +81,17 @@ class TestDictDiffer(TestCase):
         tdf = DictDiffer(b, a)
 
         self.assertEqual(tdf.nb_changes(), 4)
+
+    def test_fulldiff(self):
+        """
+        """
+        a = {'a': 1, 'b': 1, 'c': 4}
+        b = {'d': 1, 'f': 1, 'c': 5}
+        tdf = DictDiffer(b, a)
+
+        diff = tdf.fulldiff()
+        result = {'added': [{'d': 1}, {'f': 1}],
+                  'changed': [{'key': 'c', 'old': 4, 'new': 5}],
+                  'removed': [{'a': 1}, {'b': 1}]}
+
+        self.assertEqual(diff, result)

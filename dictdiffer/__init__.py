@@ -51,3 +51,26 @@ class DictDiffer(object):
     def unchanged(self):
         return set(o for o in self.intersect
                    if self.past_dict[o] == self.current_dict[o])
+
+    def fulldiff(self):
+        """Return a full diff between two dict
+
+        - Return : dict
+        """
+        added = []
+        changed = []
+        removed = []
+        for key in self.added():
+            added.append({key: self.current_dict[key]})
+
+        for key in self.removed():
+            removed.append({key: self.past_dict[key]})
+
+        for key in self.changed():
+            changed.append({'key': key,
+                            'old': self.past_dict[key],
+                            'new': self.current_dict[key]})
+
+        return {'added': added,
+                'changed': changed,
+                'removed': removed}
